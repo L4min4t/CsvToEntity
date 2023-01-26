@@ -9,21 +9,22 @@ namespace csvToEntity
 {
     internal class WordTranslation
     {
+        public string Word { get; set; }
+
+        public List<string> Translations { get; set; }
+
         public WordTranslation() { }
-        public WordTranslation(string word, string translations)
+        public WordTranslation(string word, string translation)
         {
             Word = word;
-            Translations.Append(translations);
+            Translations = new List<string> { translation };
         }
+
         public WordTranslation(string word, List<string> translations)
         {
             Word = word;
             Translations = translations;
         }
-
-        public string Word { get; set; }
-
-        public List<string> Translations { get; set; }
 
         public void AddWordTranslation(string translation)
         {
@@ -32,7 +33,19 @@ namespace csvToEntity
 
         public override string ToString()
         {
-            return $"{Word} - {string.Join(" ", Translations)}";
+            return $"{Word} - {string.Join(", ", Translations)}";
         }
+
+        //public override bool Equals(object obj)
+        //{
+        //    var item = obj as WordTranslation;
+
+        //    if (item == null)
+        //    {
+        //        return false;
+        //    }
+
+        //    return Word.Equals(item.Word);
+        //}
     }
 }

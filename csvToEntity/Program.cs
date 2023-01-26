@@ -16,16 +16,27 @@ namespace csvToEntity
         static void Main(string[] args)
         {
             List<WordTranslation> wordsList = new List<WordTranslation>();
+
             Console.OutputEncoding = Encoding.UTF8;
+
             var csv = new CsvReader(new StreamReader("../../1.csv", Encoding.UTF8), CultureInfo.InvariantCulture);
+            
+            while(csv.Read())
             {
-                while(csv.Read())
-                {   
-                    if (csv[2] in wordsList.Contains())
-                    wordsList.Add(new WordTranslation(csv[2].ToString(), csv[3].ToString()));
-                    Console.WriteLine($"{csv[0]}, {csv[1]}, {csv[2]}, {csv[3]}");
+                if (wordsList.Any(x => x.Word == csv[2]))
+                {
+                    //Console.WriteLine(csv[2]);  
+                    wordsList.First(x => x.Word == csv[2]).Translations.Add(csv[3].ToString());
                 }
-                //context.SaveChanges();
+                else
+                {
+                    wordsList.Add(new WordTranslation(csv[2].ToString(), csv[3].ToString()));
+                }
+            }
+
+            foreach (var word in wordsList.OrderBy(x => x.Word))
+            {
+                Console.WriteLine(word.ToString()); 
             }
         }
     }
